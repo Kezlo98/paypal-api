@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey | Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-gray-900">Portfolio</span>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="index.html"
+                        class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Home</a>
+                    <a href="journey.html"
+                        class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Journey</a>
+                    <a href="finance.html"
+                        class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Finance</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Header -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">My Journey</h1>
+                <p class="text-gray-600">A timeline of milestones and achievements throughout my career.</p>
+            </div>
+
+            <!-- Timeline -->
+            <div id="timeline" class="hidden">
+                <div class="relative">
+                    <!-- Vertical Line -->
+                    <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-gray-200">
+                    </div>
+
+                    <!-- Milestones will be rendered here -->
+                    <div id="milestones-container"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-sm">&copy; 2026 SonBIP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/app.js"></script>
+    <script>
+        // Load journey data from JSON file
+        async function loadJourneyData() {
+            try {
+                const response = await fetch('/data/journey.json');
+                if (!response.ok) throw new Error('Failed to load journey data');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading journey data:', error);
+                return { milestones: [] };
+            }
+        }
+
+        // Render journey timeline
+        function renderJourney(journeyData) {
+            const timelineEl = document.getElementById('timeline');
+            const containerEl = document.getElementById('milestones-container');
+
+            if (!journeyData || !journeyData.milestones) {
+                return;
+            }
+
+            timelineEl.classList.remove('hidden');
+
+            // Sort milestones by date (newest first)
+            const milestones = [...journeyData.milestones].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            containerEl.innerHTML = milestones.map((milestone, index) => `
+                <div class="relative flex items-center mb-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}">
+                    <!-- Timeline Dot -->
+                    <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow z-10"></div>
+
+                    <!-- Content -->
+                    <div class="ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}">
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                            <div class="text-sm text-blue-600 font-medium mb-2">${formatDate(milestone.date, milestone.endDate || null)}</div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">${milestone.title}</h3>
+                            <p class="text-gray-600 mb-4">${milestone.description}</p>
+                            <div class="flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : ''}">
+                                ${milestone.tags.map(tag => `
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        ${tag}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            const journeyData = await loadJourneyData();
+            renderJourney(journeyData);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+{
+  "milestones": [
+    {
+      "id": 1,
+      "date": "2023-11-14",
+      "title": "First Project ThemeSafe ‑ Auto Backup",
+      "description": "A shopify app that helps users backup their theme files.",
+      "tags": [
+        "Shopify",
+        "Beginner",
+        "Learning"
+      ]
+    },
+    {
+      "id": 2,
+      "date": "2024-12-01",
+      "title": "Gap Year",
+      "description": "Get Married and have a baby ",
+      "tags": [
+        "Gap Year",
+        "Personal",
+        "Family"
+      ]
+    },
+    {
+      "id": 3,
+      "date": "2025-12-09",
+      "title": "Release the second shopify app with Vibe coding",
+      "description": "ThemeSafe ‑ Security ‑ Review - a shopify app that helps users review security issues of their theme files.",
+      "tags": [
+        "Shopify",
+        "Beginner",
+        "Vibe coding"
+      ]
+    },
+    {
+      "id": 4,
+      "date": "2025-12-24",
+      "title": "The third shopify app: OrderSafe - Auto Backup",
+      "description": "Help users to backup their order.",
+      "tags": [
+        "Shopify",
+        "Intermediate",
+        "Vibe coding"
+      ]
+    },
+    {
+      "id": 5,
+      "date": "2028-01-01",
+      "title": "Millionaire",
+      "description": "Get rich",
+      "tags": [
+        "Personal",
+        "Flex"
+      ]
+    }
+  ]
+}

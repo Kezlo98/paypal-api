@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -51,8 +53,36 @@ app.add_middleware(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# Mount static directories for frontend assets
+app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
+app.mount("/data", StaticFiles(directory="static/data"), name="data")
+
 # Include API routes
 app.include_router(paypal_router)
+
+
+@app.get("/")
+async def serve_index():
+    """Serve portfolio homepage."""
+    return FileResponse("static/index.html")
+
+
+@app.get("/index.html")
+async def serve_index_html():
+    """Serve portfolio homepage (index.html route)."""
+    return FileResponse("static/index.html")
+
+
+@app.get("/journey.html")
+async def serve_journey():
+    """Serve career journey page."""
+    return FileResponse("static/journey.html")
+
+
+@app.get("/finance.html")
+async def serve_finance():
+    """Serve PayPal finance dashboard."""
+    return FileResponse("static/finance.html")
 
 
 @app.get("/health")
