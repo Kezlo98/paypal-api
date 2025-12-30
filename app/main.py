@@ -12,6 +12,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.api.v1.paypal import router as paypal_router
 from app.config import settings
+from app.services.exchange_rate_service import exchange_rate_service
 from app.services.paypal_client import paypal_client
 from app.services.rate_limiter import limiter
 
@@ -28,8 +29,10 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager - cleanup on shutdown."""
     logging.info(f"Starting PayPal API service (mode: {settings.paypal_mode})")
     logging.info(f"PayPal base URL: {settings.paypal_base_url}")
+    logging.info("Exchange rate service initialized (using Frankfurter API)")
     yield
     await paypal_client.close()
+    await exchange_rate_service.close()
     logging.info("PayPal API service stopped")
 
 

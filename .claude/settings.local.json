@@ -12,7 +12,14 @@
       "Bash(python3:*)",
       "Bash(git config:*)",
       "Bash(git add:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git push:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh auth:*)",
+      "Bash(/opt/homebrew/bin/gh repo create:*)"
     ]
   }
 }
