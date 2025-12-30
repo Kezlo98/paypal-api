@@ -104,6 +104,41 @@ Requests are limited to 60 per minute per IP address. When exceeded:
 - **Network errors:** Returns 503 Service Unavailable
 - **Rate limit:** Returns 429 Too Many Requests
 
+## Docker Deployment
+
+Production-ready Docker image (220MB) with multi-stage build, security hardening, and health checks.
+
+### Quick Docker Run
+
+```bash
+docker build -t paypal-api:latest .
+
+docker run -d \
+  --name paypal-api \
+  -p 8000:8000 \
+  -e PAYPAL_CLIENT_ID=your_id \
+  -e PAYPAL_CLIENT_SECRET=your_secret \
+  -e PAYPAL_MODE=sandbox \
+  paypal-api:latest
+```
+
+### Key Features
+
+- **Multi-stage build:** 220MB final image
+- **Security:** Non-root user (appuser), minimal base image
+- **Health check:** Built-in Python http.client
+- **Configurable:** PORT and WORKERS environment variables
+- **Production-ready:** Restart policy, proper signal handling
+
+### Full Documentation
+
+See [deployment-guide.md](./docs/deployment-guide.md) for:
+- Environment variables and configuration
+- Docker Compose setup
+- Security best practices
+- Performance tuning
+- Troubleshooting guide
+
 ## License
 
 MIT
